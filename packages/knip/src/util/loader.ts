@@ -4,7 +4,7 @@ import { LoaderError } from './errors.js';
 import { loadFile, loadJSON, loadTOML, loadYAML, parseJSON, parseYAML } from './fs.js';
 import { isTypeModule } from './fs.js';
 import { extname, isInternal } from './path.js';
-import { jitiCJS, jitiESM } from './register.js';
+import { jiti } from './register.js';
 
 const load = async (filePath: string) => {
   try {
@@ -45,11 +45,7 @@ const load = async (filePath: string) => {
       return imported.default ?? imported;
     }
 
-    if (ext === '.mts' || ((ext === '.ts' || ext === '.tsx') && isTypeModule(filePath))) {
-      return await jitiESM(filePath);
-    }
-
-    return await jitiCJS(filePath);
+    return await jiti(filePath);
   } catch (error) {
     throw new LoaderError(`Error loading ${filePath}`, { cause: error });
   }

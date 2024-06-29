@@ -5,7 +5,7 @@ import { timerify } from './Performance.js';
 import { debugLog } from './debug.js';
 import { getPackageNameFromModuleSpecifier } from './modules.js';
 import { cwd, join, toPosix } from './path.js';
-import { jitiCJS } from './register.js';
+import { jiti as _jiti } from './register.js';
 
 /*
  * package.json#exports + self-referencing not supported in `resolve` package nor Bun:
@@ -18,7 +18,7 @@ const createRequire = (path?: string) => nodeCreateRequire(pathToFileURL(path ??
 const require = createRequire();
 export const _require = timerify(require);
 
-const resolve = (specifier: string) => toPosix(jitiCJS.resolve(specifier));
+const resolve = (specifier: string) => toPosix(_jiti.resolve(specifier));
 
 const tryResolve = (specifier: string, from: string) => {
   try {
